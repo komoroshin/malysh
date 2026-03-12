@@ -752,15 +752,15 @@
     <div id="form-rent">
       <div class="form-group">
         <label>Имя</label>
-        <input type="text" placeholder="Анна">
+        <input type="text" id="rent-name" placeholder="Анна" required>
       </div>
       <div class="form-group">
         <label>Телефон или email</label>
-        <input type="text" placeholder="+7 999 000-00-00">
+        <input type="text" id="rent-contact" placeholder="+7 999 000-00-00" required>
       </div>
       <div class="form-group">
         <label>Что хочешь арендовать первым делом?</label>
-        <select>
+        <select id="rent-category" required>
           <option value="">Выбери категорию</option>
           <option>Коляска</option>
           <option>Автокресло</option>
@@ -770,22 +770,22 @@
           <option>Другое</option>
         </select>
       </div>
-      <button class="form-submit" onclick="submitForm()">Хочу быть первым 🎉</button>
+      <button class="form-submit" onclick="submitForm('rent')">Хочу быть первым 🎉</button>
       <p class="form-note">Нажимая кнопку, ты соглашаешься на получение одного письма о запуске. Никакого спама.</p>
     </div>
 
     <div id="form-own" style="display:none">
       <div class="form-group">
         <label>Имя</label>
-        <input type="text" placeholder="Мария">
+        <input type="text" id="own-name" placeholder="Мария" required>
       </div>
       <div class="form-group">
         <label>Телефон или email</label>
-        <input type="text" placeholder="+7 999 000-00-00">
+        <input type="text" id="own-contact" placeholder="+7 999 000-00-00" required>
       </div>
       <div class="form-group">
         <label>Что готова сдавать?</label>
-        <select>
+        <select id="own-category" required>
           <option value="">Выбери категорию</option>
           <option>Коляска</option>
           <option>Автокресло</option>
@@ -794,7 +794,7 @@
           <option>Другое</option>
         </select>
       </div>
-      <button class="form-submit" onclick="submitForm()">Хочу зарабатывать 💰</button>
+      <button class="form-submit" onclick="submitForm('own')">Хочу зарабатывать 💰</button>
       <p class="form-note">Пришлём первыми, когда откроем регистрацию арендодателей.</p>
     </div>
 
@@ -814,6 +814,9 @@
 </footer>
 
 <script>
+  // ВАЖНО: Вставьте сюда URL вашего Google Apps Script Web App
+  const GOOGLE_SCRIPT_URL = 'ВСТАВЬТЕ_СЮДА_URL_ИЗ_GOOGLE_APPS_SCRIPT';
+
   // Tab switcher
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -823,9 +826,60 @@
   }
 
   // Form submit
-  function submitForm() {
-    document.querySelectorAll('#form-rent, #form-own').forEach(f => f.style.display = 'none');
-    document.getElementById('success').style.display = 'block';
+  async function submitForm(type) {
+    const prefix = type === 'rent' ? 'rent' : 'own';
+
+    // Получаем значения полей
+    const name = document.getElementById(`${prefix}-name`).value.trim();
+    const contact = document.getElementById(`${prefix}-contact`).value.trim();
+    const category = document.getElementById(`${prefix}-category`).value;
+
+    // Валидация
+    if (!name || !contact || !category) {
+      alert('Пожалуйста, заполните все поля');
+      return;
+    }
+
+    // Данные для отправки
+    const data = {
+      name: name,
+      contact: contact,
+      category: category,
+      type: type === 'rent' ? 'Арендатор' : 'Владелец'
+    };
+
+    // Показываем индикатор загрузки
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = 'Отправляем...';
+    button.disabled = true;
+
+    try {
+      // Отправляем в Google Sheets
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      // Показываем успех
+      document.querySelectorAll('#form-rent, #form-own').forEach(f => f.style.display = 'none');
+      document.getElementById('success').style.display = 'block';
+
+      // Очищаем форму
+      document.getElementById(`${prefix}-name`).value = '';
+      document.getElementById(`${prefix}-contact`).value = '';
+      document.getElementById(`${prefix}-category`).value = '';
+
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      alert('Произошла ошибка. Попробуйте позже или свяжитесь с нами напрямую.');
+      button.textContent = originalText;
+      button.disabled = false;
+    }
   }
 
   // Intersection Observer for reveal animations
