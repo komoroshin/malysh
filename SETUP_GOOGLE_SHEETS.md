@@ -7,9 +7,10 @@
 3. В первой строке создайте заголовки:
    - A1: `Дата`
    - B1: `Имя`
-   - C1: `Контакт`
-   - D1: `Категория`
-   - E1: `Тип`
+   - C1: `Email`
+   - D1: `Телефон`
+   - E1: `Категория`
+   - F1: `Тип`
 
 ## Шаг 2: Создание Google Apps Script
 
@@ -27,7 +28,8 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       data.name,
-      data.contact,
+      data.email,
+      data.phone,
       data.category,
       data.type
     ]);
@@ -89,7 +91,7 @@ function doPost(e) {
 MailApp.sendEmail({
   to: "ваш-email@gmail.com",
   subject: "Новая заявка на МалышШеринг",
-  body: `Новая заявка от ${data.name}\nКонтакт: ${data.contact}\nКатегория: ${data.category}\nТип: ${data.type}`
+  body: `Новая заявка от ${data.name}\n\nEmail: ${data.email}\nТелефон: ${data.phone}\nКатегория: ${data.category}\nТип: ${data.type}`
 });
 ```
 

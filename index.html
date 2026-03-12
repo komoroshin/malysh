@@ -755,8 +755,12 @@
         <input type="text" id="rent-name" placeholder="Анна" required>
       </div>
       <div class="form-group">
-        <label>Телефон или email</label>
-        <input type="text" id="rent-contact" placeholder="+7 999 000-00-00" required>
+        <label>Email</label>
+        <input type="email" id="rent-email" placeholder="anna@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="tel" id="rent-phone" placeholder="+7 999 000-00-00" required>
       </div>
       <div class="form-group">
         <label>Что хочешь арендовать первым делом?</label>
@@ -780,8 +784,12 @@
         <input type="text" id="own-name" placeholder="Мария" required>
       </div>
       <div class="form-group">
-        <label>Телефон или email</label>
-        <input type="text" id="own-contact" placeholder="+7 999 000-00-00" required>
+        <label>Email</label>
+        <input type="email" id="own-email" placeholder="maria@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Телефон</label>
+        <input type="tel" id="own-phone" placeholder="+7 999 000-00-00" required>
       </div>
       <div class="form-group">
         <label>Что готова сдавать?</label>
@@ -831,11 +839,12 @@
 
     // Получаем значения полей
     const name = document.getElementById(`${prefix}-name`).value.trim();
-    const contact = document.getElementById(`${prefix}-contact`).value.trim();
+    const email = document.getElementById(`${prefix}-email`).value.trim();
+    const phone = document.getElementById(`${prefix}-phone`).value.trim();
     const category = document.getElementById(`${prefix}-category`).value;
 
     // Валидация
-    if (!name || !contact || !category) {
+    if (!name || !email || !phone || !category) {
       alert('Пожалуйста, заполните все поля');
       return;
     }
@@ -843,7 +852,8 @@
     // Данные для отправки
     const data = {
       name: name,
-      contact: contact,
+      email: email,
+      phone: phone,
       category: category,
       type: type === 'rent' ? 'Арендатор' : 'Владелец'
     };
@@ -871,7 +881,8 @@
 
       // Очищаем форму
       document.getElementById(`${prefix}-name`).value = '';
-      document.getElementById(`${prefix}-contact`).value = '';
+      document.getElementById(`${prefix}-email`).value = '';
+      document.getElementById(`${prefix}-phone`).value = '';
       document.getElementById(`${prefix}-category`).value = '';
 
     } catch (error) {
