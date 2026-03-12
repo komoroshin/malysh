@@ -843,9 +843,16 @@
     const phone = document.getElementById(`${prefix}-phone`).value.trim();
     const category = document.getElementById(`${prefix}-category`).value;
 
-    // Валидация
+    // Валидация пустых полей
     if (!name || !email || !phone || !category) {
       alert('Пожалуйста, заполните все поля');
+      return;
+    }
+
+    // Валидация email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Пожалуйста, введите корректный email-адрес');
       return;
     }
 
