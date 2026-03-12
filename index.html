@@ -325,6 +325,66 @@
   .cat-pill:hover { border-color: var(--terracotta); color: var(--terracotta); transform: translateY(-2px); }
   .cat-pill.featured { background: var(--terracotta); color: white; }
 
+  /* PARTNERS */
+  .partners {
+    padding: 80px 40px;
+    background: var(--light-sage);
+  }
+  .partners .section-label { color: var(--sage); }
+  .partners h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    letter-spacing: -1px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .partner-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .partner-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 2px 20px rgba(44,36,24,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .partner-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(44,36,24,0.1); }
+  .partner-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .partner-card h3::before { font-size: 24px; }
+  .partner-card h3.rental::before { content: '🏪'; }
+  .partner-card h3.brand::before { content: '🏭'; }
+  .partner-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .partner-list li {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+  }
+  .partner-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-weight: 700;
+  }
+
   /* SIGNUP */
   .signup {
     padding: 100px 40px;
@@ -491,6 +551,8 @@
     .how { padding: 60px 20px; }
     .steps { grid-template-columns: 1fr; }
     .categories { padding: 60px 20px; }
+    .partner-cards { grid-template-columns: 1fr; }
+    .partners { padding: 60px 20px; }
     .signup { grid-template-columns: 1fr; padding: 60px 20px; gap: 40px; }
     footer { padding: 30px 20px; }
   }
@@ -636,6 +698,32 @@
       <div class="cat-pill">🎠 Электрокачели</div>
       <div class="cat-pill">🚲 Велосипеды — скоро</div>
       <div class="cat-pill">🎭 Костюмы — скоро</div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="section-label reveal">Для бизнеса</div>
+    <h2 class="reveal">Партнёрам — новый канал продаж</h2>
+    <div class="partner-cards">
+      <div class="partner-card reveal">
+        <h3 class="rental">Пунктам проката</h3>
+        <ul class="partner-list">
+          <li>Подключите инвентарь к платформе</li>
+          <li>Получайте заказы без затрат на рекламу</li>
+          <li>Эскроу-оплата и бронирование — на нас</li>
+        </ul>
+      </div>
+      <div class="partner-card reveal">
+        <h3 class="brand">Производителям</h3>
+        <ul class="partner-list">
+          <li>Размещайте тест-драйвы новинок</li>
+          <li>Клиенты пробуют, потом покупают новое</li>
+          <li>Собираем аналитику по спросу</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
